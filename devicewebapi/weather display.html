@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather 75f</title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(setInterval( function () {
+            var uldevice = $('#uldevice');
+            $('#btn').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "api/Device/",
+                    dataType: 'json',
+                    success: function (data) {
+                        uldevice.empty();
+                        $.each(data, function (index, val) {
+                            var fulldata =val.ID + '   '+ val.device_ID + '   ' + val.timestamp + '   ' + val.temperature + '   ' + val.humidity;
+                            uldevice.append('<li>' + fulldata + '</li>');
+                        });
+                    }
+                });
+            });
+            $('#btnClear').click(function () {
+                uldevice.empty();
+            });
+            
+        }, 60000));
+        
+        setInterval(function () {
+            $('btn').load("weather display.html");
+        }, 60000);
+        alert("External content loaded successfully!");
+    </script>
+    
+</head>
+<body>
+    <div>
+        <input id="btn" type="button" value="Get weather data" />
+        <input id="btnClear" type="button" value="Clear" />
+        <ul id="uldevice" />
+    </div>
+</body>
+</html>
